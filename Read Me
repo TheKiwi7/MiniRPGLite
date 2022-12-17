@@ -1,0 +1,5 @@
+Le fichier java Game a été crée au début pour faire marcher le jeu dans la console, comme il n'y a pas de parser et que seul l'interface marche, la majorité
+des méthodes dans game ont été commenté. 
+
+Pour l'interface les fichier controller 1 2 3 4 ont été utilisé. 
+
