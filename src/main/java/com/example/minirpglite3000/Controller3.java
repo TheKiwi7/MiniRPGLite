@@ -19,7 +19,6 @@ import java.util.ResourceBundle;
 
 public class Controller3 implements Initializable {
 
-
     @FXML
     private Button ReadyButton;
 
@@ -34,15 +33,6 @@ public class Controller3 implements Initializable {
 
     @FXML
     private Label Hero4LabelMenu;
-
-    @FXML
-    private Label Hero2NameLabelMenuHero;
-
-    @FXML
-    private Label Hero3NameLabelMenuHero;
-
-    @FXML
-    private Label Hero4NameLabelMenuHero;
 
     @FXML
     private ChoiceBox<String> WeaponChoice1;
@@ -70,6 +60,11 @@ public class Controller3 implements Initializable {
         Stage stage = (Stage) ReadyButton.getScene().getWindow();
         stage.close();
         Game.createHeroTeam();
+        Parent root = FXMLLoader.load(getClass().getResource("Fight.fxml"));
+        stage.setScene(new Scene(root));
+        stage.setTitle("Fight !");
+        stage.show();
+
     }
 
     @Override

@@ -83,10 +83,11 @@ public class Enemy {
         else {
             this.Name = "Alduin";
             this.Class = "Dragon";
-            this.Health = 800;
-            this.Attack = 40;
+            this.Health = 400*Game.numHeroes;
+            this.Attack = 15*Game.numHeroes;
 
         }
+        this.currentHealth = Health;
     }
         public String getName () {
             return Name;

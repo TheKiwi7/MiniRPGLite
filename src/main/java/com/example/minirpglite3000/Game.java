@@ -1,23 +1,22 @@
 package com.example.minirpglite3000;
 
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game {
-
-    public void ChooseHero(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("ChooseHeroTeam.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-        stage.setTitle("Choose your heroes !");
-        stage.setScene(scene);
-        stage.show();
-    }
 
     public static int round = 0;
     public static int numHeroes=0;
@@ -38,9 +37,20 @@ public class Game {
     public static int Hero4Weapon;
     public static int weapon;
 
+
+    public static int ChoiceEnemy;
+    public static int ChoiceHero;
+
+    public static ArrayList<Enemy> enemyTeam = new ArrayList<>();
+    public static ArrayList<Hero> heroTeam = new ArrayList<>();
+
+    public static int  TurnHero = 0;
+
+
+
     private static Scanner sc = new Scanner(System.in);
     
-    public void MainMenu() {
+    /*public void MainMenu() throws IOException {
 
         System.out.println("Welcome to MiniRPG Lite 3000!");
         System.out.println("Please select an option:");
@@ -64,9 +74,9 @@ public class Game {
             MainMenu();
         }
 
-    }
-    public static void createHeroTeam() {
-        ArrayList<Hero> heroTeam = new ArrayList<Hero>();
+    }*/
+    public static void createHeroTeam() throws IOException {
+        heroTeam = new ArrayList<Hero>();
         System.out.println("How many heroes do you want to create?");
 
         do {
@@ -84,7 +94,6 @@ public class Game {
 
         for (int i = 0; i < numHeroes; i++) {
             System.out.println("What is the name of hero " + (i + 1) + "?");
-            //check if Hero1Name is null and if i = 0
             if (Hero1Name == null && i == 0){
                 Hero1Name = sc.next();
             }
@@ -256,7 +265,7 @@ public class Game {
         }
     }*/
     public static void createEnemyTeam(int numHeroes, ArrayList<Hero> heroTeam) {
-        ArrayList<Enemy> enemyTeam = new ArrayList<Enemy>();
+        enemyTeam = new ArrayList<Enemy>();
         if (round < 4) {
 
 
@@ -276,15 +285,17 @@ public class Game {
             System.out.println("You encounter the final boss: ");
             System.out.println(enemy.getName() + " the " + enemy.getEnemyClass() + " - Health: " + enemy.getHealth() + " - Attack: " + enemy.getAttack());
         }
-        fight(heroTeam,enemyTeam);
 
     }
 
 
-    public static void fight(ArrayList<Hero> heroTeam, ArrayList<Enemy> enemyTeam) {
+    /*public static void fight(ArrayList<Hero> heroTeam, ArrayList<Enemy> enemyTeam) throws IOException {
         for (Hero hero : heroTeam) {
             System.out.println("It's " + hero.getName() + " the " + hero.getClassHero() + "'s turn" );
+            TurnHero = heroTeam.indexOf(hero);
+
             for (Hero hero2 : heroTeam) {
+
                 System.out.println(hero2.getName()+ " the "+ hero2.getClassHero()+ " as : " + hero2.getCurrentHP()+"|"+hero2.getHP()+" HP and " + hero2.getCurrentMP()+"|"+hero2.getMP()+ " MP");
             }
             System.out.println();
@@ -350,8 +361,8 @@ public class Game {
 
         }
 
-    }
-    public static void attack(Enemy enemy, Hero hero, ArrayList<Enemy> enemyTeam, ArrayList<Hero> heroTeam) {
+    }*/
+    public static void attack(Enemy enemy, Hero hero, ArrayList<Enemy> enemyTeam, ArrayList<Hero> heroTeam) throws IOException {
         enemy.setCurrentHealth(enemy.getCurrentHealth() - hero.getWeapon().getDamage());
         System.out.println(hero.getName() + " attacked " +enemy.getName() +" the "+enemy.getEnemyClass()+ " for " + hero.getWeapon().getDamage() + " damage");
         if (enemy.getCurrentHealth() <= 0) {
@@ -396,79 +407,55 @@ public class Game {
         }
     }
 
-    public static void specialAttack(Hero hero, ArrayList<Hero> heroTeam, ArrayList<Enemy> enemyTeam){
-        hero.setCurrentMP(hero.getCurrentMP()- hero.getWeapon().getManaCost());
-        if (hero.getClassHero().equals("Healer")){
-            System.out.println("Which hero do you want to heal?");
-            for (Hero hero2 : heroTeam) {
-                int index = heroTeam.indexOf(hero2);
-                System.out.println(index +1 +". "+hero2.getName() + " - Health: " + hero2.getCurrentHP() + "|"+ hero2.getHP());
-            }
-            int heroChoice = sc.nextInt() - 1;
-            Hero hero2 = heroTeam.get(heroChoice);
-            int current = hero2.getCurrentHP();
-            hero2.setCurrentHP(hero2.getCurrentHP() + 50);
-            if (hero2.getCurrentHP() > hero2.getHP()){
-                hero2.setCurrentHP(hero2.getHP());
-            }
-            int difference = hero.getCurrentHP() - current;
-            System.out.println(hero.getName() + " was healed for " + difference + "MP");
-        }
-        else {
-            System.out.println("Which enemy do you want to attack?");
-            for (Enemy enemy : enemyTeam) {
-                int index = enemyTeam.indexOf(enemy);
-                System.out.println(index+1 +". "+enemy.getName() +" the "+enemy.getEnemyClass()+ " - HP: " + enemy.getCurrentHealth() + " | " + enemy.getHealth() + " - Attack: " + enemy.getAttack());
-            }
-            int enemyChoice = sc.nextInt() - 1;
-            Enemy enemy = enemyTeam.get(enemyChoice);
-            enemy.setCurrentHealth(enemy.getCurrentHealth() - hero.getWeapon().getDamage()*2);
-            System.out.println(hero.getName() + " destroyed " +enemy.getName() +" the "+enemy.getEnemyClass()+" for " + hero.getWeapon().getDamage()*2 + " damage");
-            if (enemy.getCurrentHealth() <= 0) {
-                System.out.println(enemy.getName() +" the "+enemy.getEnemyClass()+ " is dead");
-                enemyTeam.remove(enemy);
-            }
-            if (enemyTeam.size() == 0) {
-                System.out.println("You won the fight");
-                if (round == 5) {
-                    System.out.println("Good job you cleared the game !");
-                    System.exit(0);
-                }
-                else{
-                    for (Hero hero3 : heroTeam) {
-                        System.out.println("What bonus do you want to give to " + hero3.getName() + " the "+ hero3.getClassHero()+"?");
-                        System.out.println("1. +10 HP");
-                        System.out.println("2. +10 MP");
-                        System.out.println("3. A healing capsule (Heals your whole team for 30 HP)");
-                        int bonusChoice = sc.nextInt();
-                        if (bonusChoice == 1){
-                            hero3.setHP(hero3.getHP()+10);
-                            System.out.println("You gave +10 HP to " + hero3.getName() + " the "+ hero3.getClassHero());
-                        }
-                        else if (bonusChoice == 2){
-                            hero3.setMP(hero3.getMP()+10);
-                            System.out.println("You gave +10 MP to " + hero3.getName() + " the "+ hero3.getClassHero());
-                        }
-                        else if (bonusChoice == 3){
-                            hero.setCapsule(hero.getCapsule()+1);
-                            System.out.println("You have " + hero.getCapsule() + " capsules with "+ hero3.getName() + " the "+ hero3.getClassHero());
-                        }
-                        else {
-                            System.out.println("You must choose between 1, 2, or 3 ... You get nothing");
-                        }
-                        hero3.setCurrentHP(hero3.getHP());
-                        hero3.setCurrentMP(hero3.getMP());
+    /*public static void Specialattack(Enemy enemy, Hero hero, ArrayList<Enemy> enemyTeam, ArrayList<Hero> heroTeam) throws IOException {
+        if (hero.getClassHero() == "Healer")
+        {
 
+        }
+        enemy.setCurrentHealth(enemy.getCurrentHealth() - hero.getWeapon().getDamage());
+        System.out.println(hero.getName() + " attacked " +enemy.getName() +" the "+enemy.getEnemyClass()+ " for " + hero.getWeapon().getDamage() + " damage");
+        if (enemy.getCurrentHealth() <= 0) {
+            System.out.println(enemy.getName() +" the "+enemy.getEnemyClass()+ " is dead");
+            enemyTeam.remove(enemy);
+        }
+        if (enemyTeam.size() == 0) {
+            System.out.println("You won the fight");
+            if (round == 4) {
+                System.out.println("Good job you cleared the game !");
+                System.exit(0);
+            }
+            else{
+                for (Hero hero3 : heroTeam) {
+                    System.out.println("What bonus do you want to give to " + hero3.getName() + " the "+ hero3.getClassHero()+"?");
+                    System.out.println("1. +10 HP");
+                    System.out.println("2. +10 MP");
+                    System.out.println("3. A healing capsule (Heals your whole team for 30 HP)");
+                    int bonusChoice = sc.nextInt();
+                    if (bonusChoice == 1){
+                        System.out.println("You gave +10 HP to " + hero3.getName() + " the "+ hero3.getClassHero());
+                        hero3.setHP(hero3.getHP()+10);
                     }
-                    createEnemyTeam(numHeroes, heroTeam);
+                    else if (bonusChoice == 2){
+                        System.out.println("You gave +10 MP to " + hero3.getName() + " the "+ hero3.getClassHero());
+                        hero3.setMP(hero3.getMP()+10);
+                    }
+                    else if (bonusChoice == 3){
+                        hero.setCapsule(hero.getCapsule()+1);
+                        System.out.println("You have " + hero.getCapsule() + " capsules with "+ hero3.getName() + " the "+ hero3.getClassHero());
+                    }
+                    else {
+                        System.out.println("You must choose between 1, 2, or 3 ... You get nothing");
+                    }
+                    hero3.setCurrentHP(hero3.getHP());
+                    hero3.setCurrentMP(hero3.getMP());
+
                 }
-
+                createEnemyTeam(numHeroes, heroTeam);
             }
+
         }
-
-
-    }
-    public static void enemyAttack(Enemy enemy, ArrayList<Hero> heroTeam)
+    }*/
+    /*public static void enemyAttack(Enemy enemy, ArrayList<Hero> heroTeam)
     {
             if (round < 4) {
                 int index = (int) (Math.random() * heroTeam.size());
@@ -502,5 +489,5 @@ public class Game {
                 }
             }
 
-    }
+    }*/
 }
