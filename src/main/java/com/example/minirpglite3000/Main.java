@@ -3,6 +3,7 @@ package com.example.minirpglite3000;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,9 +12,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
-
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 public class Main extends Application {
+
 
 
     public static void main(String[] args) {
@@ -22,20 +25,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(com.example.minirpglite3000.Main.class.getResource("Main Menu.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+        Parent root = FXMLLoader.load(getClass().getResource("Main Menu.fxml"));
+        stage.setScene(new Scene(root));
         stage.setTitle("Welcome !");
-        stage.setScene(scene);
         stage.show();
 
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                stage.close();
-            }
-        });
 
     }
 

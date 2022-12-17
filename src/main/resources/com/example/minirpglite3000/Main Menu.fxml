@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.minirpglite3000.Game">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.minirpglite3000.Controller">
    <children>
-      <Button layoutX="240.0" layoutY="253.0" mnemonicParsing="false" onMouseClicked="#createHeroTeam" text="Start The Game" />
+      <Button fx:id="StartButton" layoutX="239.0" layoutY="253.0" mnemonicParsing="false" onAction="#StartButtonClicked" prefHeight="47.0" prefWidth="122.0" text="Start The Game" />
+      <Label layoutX="78.0" layoutY="82.0" text="Welcome to the dungeon !">
+         <font>
+            <Font name="System Bold Italic" size="36.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

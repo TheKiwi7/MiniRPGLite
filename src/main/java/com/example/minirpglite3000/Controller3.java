@@ -69,10 +69,7 @@ public class Controller3 implements Initializable {
         Game.Hero4Weapon= WeaponChoice4.getSelectionModel().getSelectedIndex()+1;
         Stage stage = (Stage) ReadyButton.getScene().getWindow();
         stage.close();
-        Parent root = FXMLLoader.load(getClass().getResource("fight.fxml"));
-        stage.setScene(new Scene(root));
-        stage.setTitle("Let's fight !");
-        stage.show();
+        Game.createHeroTeam();
     }
 
     @Override

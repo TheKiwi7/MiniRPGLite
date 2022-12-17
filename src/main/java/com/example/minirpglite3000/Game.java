@@ -20,10 +20,25 @@ public class Game {
     }
 
     public static int round = 0;
-    public int numHeroes;
+    public static int numHeroes=0;
     public int win = 0;
+    public static String Hero1Name;
+    public static String Hero2Name;
+    public static String Hero3Name;
+    public static String Hero4Name;
+    public static String name;
+    public static String Hero1Class;
+    public static String Hero2Class;
+    public static String Hero3Class;
+    public static String Hero4Class;
+    public static String type;
+    public static int Hero1Weapon;
+    public static int Hero2Weapon;
+    public static int Hero3Weapon;
+    public static int Hero4Weapon;
+    public static int weapon;
 
-    private Scanner sc = new Scanner(System.in);
+    private static Scanner sc = new Scanner(System.in);
     
     public void MainMenu() {
 
@@ -50,12 +65,14 @@ public class Game {
         }
 
     }
-    public void createHeroTeam() {
+    public static void createHeroTeam() {
         ArrayList<Hero> heroTeam = new ArrayList<Hero>();
         System.out.println("How many heroes do you want to create?");
 
         do {
-            numHeroes = sc.nextInt();
+            if (numHeroes ==0){
+                numHeroes = sc.nextInt();
+            }
             if ( numHeroes < 1 || numHeroes > 4) {
                 System.out.println("You must create between 1 and 4 heroes.");
                 createHeroTeam();
@@ -67,13 +84,56 @@ public class Game {
 
         for (int i = 0; i < numHeroes; i++) {
             System.out.println("What is the name of hero " + (i + 1) + "?");
-            String name = sc.next();
+            //check if Hero1Name is null and if i = 0
+            if (Hero1Name == null && i == 0){
+                Hero1Name = sc.next();
+            }
+            else if (Hero2Name == null && i == 1){
+                Hero2Name = sc.next();
+            }
+            else if (Hero3Name == null && i == 2){
+                Hero3Name = sc.next();
+            }
+            else if (Hero4Name == null && i == 3){
+                Hero4Name = sc.next();
+            }
             System.out.println("What is the class of hero " + (i + 1) + "?");
             System.out.println("1. Warrior");
             System.out.println("2. Mage");
             System.out.println("3. Hunter");
             System.out.println("4. Healer");
-            String type = sc.next();
+            if (i == 0){
+                if(Hero1Class == null){
+                    type = sc.next();
+                }
+                else{
+                    type = Hero1Class;
+                }
+            }
+            else if (i == 1){
+                if(Hero2Class == null){
+                    type = sc.next();
+                }
+                else{
+                    type = Hero2Class;
+                }
+            }
+            else if (i == 2){
+                if(Hero3Class == null){
+                    type = sc.next();
+                }
+                else{
+                    type = Hero3Class;
+                }
+            }
+            else if (i == 3){
+                if(Hero4Class == null){
+                    type = sc.next();
+                }
+                else{
+                    type = Hero4Class;
+                }
+            }
             if (type.equals("1")) {
                 System.out.println("What is the weapon of hero " + (i + 1) + "?");
                 System.out.println("1. Sword - Damage: 10 - Mana Cost: 10");
@@ -102,7 +162,71 @@ public class Game {
                 System.out.println("You must choose between Warrior, Mage, Hunter, Healer");
                 createHeroTeam();
             }
-            int weapon = sc.nextInt();
+            if (i == 0){
+                if(Hero1Weapon == 0){
+                    weapon = sc.nextInt();
+                }
+                else{
+                    weapon = Hero1Weapon;
+                }
+            }
+            else if (i == 1){
+                if(Hero2Weapon == 0){
+                    weapon = sc.nextInt();
+                }
+                else{
+                    weapon = Hero2Weapon;
+                }
+            }
+            else if (i == 2){
+                if(Hero3Weapon == 0){
+                    weapon = sc.nextInt();
+                }
+                else{
+                    weapon = Hero3Weapon;
+                }
+            }
+            else if (i == 3){
+                if(Hero4Weapon == 0){
+                    weapon = sc.nextInt();
+                }
+                else{
+                    weapon = Hero4Weapon;
+                }
+            }
+            if(i==0){
+                if(Hero1Name == null){
+                    name = sc.next();
+                }
+                else{
+                    name = Hero1Name;
+                }
+            }
+            else if(i==1){
+                if(Hero2Name == null){
+                    name = sc.next();
+                }
+                else{
+                    name = Hero2Name;
+                }
+            }
+            else if(i==2){
+                if(Hero3Name == null){
+                    name = sc.next();
+                }
+                else{
+                    name = Hero3Name;
+                }
+            }
+            else if(i==3){
+                if(Hero4Name == null){
+                    name = sc.next();
+                }
+                else{
+                    name = Hero4Name;
+                }
+            }
+
             Hero hero = new Hero(name, type, weapon);
             heroTeam.add(hero);
             System.out.println();
@@ -112,12 +236,9 @@ public class Game {
             System.out.println(hero.getName() + " the " + hero.getClassHero()+ " with a "+ hero.getWeapon().getName());
         }
         System.out.println();
-        menu(heroTeam);
-
-
-
+        createEnemyTeam(numHeroes, heroTeam);
     }
-    public void menu(ArrayList<Hero> heroTeam) {
+    /*public static void menu(ArrayList<Hero> heroTeam) {
         System.out.println("What do you want to do?");
         System.out.println("1. Start the Fight");
         System.out.println("2. Make a new team of heroes");
@@ -133,8 +254,8 @@ public class Game {
             System.out.println("You must choose between 1, 2, or 3");
             menu(heroTeam);
         }
-    }
-    public void createEnemyTeam(int numHeroes, ArrayList<Hero> heroTeam) {
+    }*/
+    public static void createEnemyTeam(int numHeroes, ArrayList<Hero> heroTeam) {
         ArrayList<Enemy> enemyTeam = new ArrayList<Enemy>();
         if (round < 4) {
 
@@ -160,7 +281,7 @@ public class Game {
     }
 
 
-    public void fight(ArrayList<Hero> heroTeam, ArrayList<Enemy> enemyTeam) {
+    public static void fight(ArrayList<Hero> heroTeam, ArrayList<Enemy> enemyTeam) {
         for (Hero hero : heroTeam) {
             System.out.println("It's " + hero.getName() + " the " + hero.getClassHero() + "'s turn" );
             for (Hero hero2 : heroTeam) {
@@ -230,7 +351,7 @@ public class Game {
         }
 
     }
-    public void attack(Enemy enemy, Hero hero, ArrayList<Enemy> enemyTeam , ArrayList<Hero> heroTeam) {
+    public static void attack(Enemy enemy, Hero hero, ArrayList<Enemy> enemyTeam, ArrayList<Hero> heroTeam) {
         enemy.setCurrentHealth(enemy.getCurrentHealth() - hero.getWeapon().getDamage());
         System.out.println(hero.getName() + " attacked " +enemy.getName() +" the "+enemy.getEnemyClass()+ " for " + hero.getWeapon().getDamage() + " damage");
         if (enemy.getCurrentHealth() <= 0) {
@@ -275,7 +396,7 @@ public class Game {
         }
     }
 
-    public void specialAttack(Hero hero, ArrayList<Hero> heroTeam, ArrayList<Enemy> enemyTeam){
+    public static void specialAttack(Hero hero, ArrayList<Hero> heroTeam, ArrayList<Enemy> enemyTeam){
         hero.setCurrentMP(hero.getCurrentMP()- hero.getWeapon().getManaCost());
         if (hero.getClassHero().equals("Healer")){
             System.out.println("Which hero do you want to heal?");
@@ -347,7 +468,7 @@ public class Game {
 
 
     }
-    public void enemyAttack(Enemy enemy, ArrayList<Hero> heroTeam)
+    public static void enemyAttack(Enemy enemy, ArrayList<Hero> heroTeam)
     {
             if (round < 4) {
                 int index = (int) (Math.random() * heroTeam.size());
